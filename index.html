@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EchoCode.pl – Twoja Prośba, Nasze Wykonanie</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Inter',sans-serif;
+    background:#0a0a0f;
+    color:white;
+    overflow-x:hidden;
+}
+
+body::before{
+    content:"";
+    position:fixed;
+    width:100%;
+    height:100%;
+    background:radial-gradient(circle at 50% 20%, rgba(140,0,255,0.2), transparent 60%);
+    z-index:-1;
+}
+
+header{
+    text-align:center;
+    padding:80px 20px;
+}
+
+.logo{
+    width:160px;
+    margin-bottom:20px;
+}
+
+h1{
+    font-family:'Orbitron',sans-serif;
+    font-size:48px;
+    background:linear-gradient(90deg,#b100ff,#00e0ff);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    text-shadow:0 0 20px rgba(177,0,255,0.5);
+}
+
+.subtitle{
+    margin-top:10px;
+    color:#aaa;
+    font-size:18px;
+}
+
+.badges{
+    margin-top:30px;
+    font-size:18px;
+    color:#ff4dff;
+}
+
+section{
+    max-width:1100px;
+    margin:auto;
+    padding:60px 20px;
+}
+
+h2{
+    font-family:'Orbitron',sans-serif;
+    font-size:26px;
+    margin-bottom:30px;
+    color:#b100ff;
+    text-shadow:0 0 15px rgba(177,0,255,0.5);
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+}
+
+.card{
+    background:#111122;
+    padding:25px;
+    border-radius:12px;
+    border:1px solid #222244;
+    transition:0.3s;
+}
+
+.card:hover{
+    border-color:#b100ff;
+    box-shadow:0 0 20px rgba(177,0,255,0.4);
+    transform:translateY(-6px);
+}
+
+.card h3{
+    margin-bottom:10px;
+    color:#00e0ff;
+}
+
+.cta{
+    text-align:center;
+    padding:80px 20px;
+    background:#0f0f18;
+}
+
+.btn{
+    display:inline-block;
+    padding:14px 30px;
+    margin:10px;
+    border-radius:8px;
+    font-weight:600;
+    text-decoration:none;
+    transition:0.3s;
+}
+
+.btn-discord{
+    background:#b100ff;
+    color:white;
+    box-shadow:0 0 15px rgba(177,0,255,0.6);
+}
+
+.btn-discord:hover{
+    background:#8a00cc;
+}
+
+.btn-youtube{
+    border:2px solid #00e0ff;
+    color:#00e0ff;
+}
+
+.btn-youtube:hover{
+    background:#00e0ff;
+    color:black;
+    box-shadow:0 0 15px rgba(0,224,255,0.6);
+}
+
+.stats{
+    display:flex;
+    justify-content:center;
+    gap:40px;
+    margin-top:40px;
+    flex-wrap:wrap;
+}
+
+.stat h3{
+    font-size:28px;
+    color:#00e0ff;
+}
+
+footer{
+    text-align:center;
+    padding:30px;
+    font-size:14px;
+    color:#666;
+    background:#0a0a0f;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <!-- jeśli masz logo jako plik np. logo.png wrzuć go do folderu -->
+    <img src="logo.png" class="logo" alt="EchoCode Logo">
+
+    <h1>EchoCode.pl</h1>
+    <p class="subtitle">S1 – Twoja Prośba, Nasze Wykonanie.</p>
+
+    <div class="badges">
+        ❌ Bez lania wody<br>
+        ❌ Bez półśrodków<br>
+        ❌ Bez pierdzielenia
+    </div>
+</header>
+
+<section>
+<h2>🚀 MASZ SERWER I PROBLEM? MY GO ROZWIĄZUJEMY</h2>
+<p>
+Masz serwer Minecraft, Discord albo projekt do rozwoju?<br>
+Brakuje techniki, czasu albo ludzi, którzy naprawdę dowożą?<br><br>
+<strong>EchoCode</strong> robi konkrety. Bez gadania.
+</p>
+</section>
+
+<section>
+<h2>🛠️ CO REALNIE OFERUJEMY</h2>
+<div class="grid">
+    <div class="card">
+        <h3>Skrypty & Boty</h3>
+        <p>Pluginy, paczki, boty Discord, systemy custom.</p>
+    </div>
+    <div class="card">
+        <h3>Mapy & Budowle</h3>
+        <p>Profesjonalne projekty pod serwery.</p>
+    </div>
+    <div class="card">
+        <h3>Optymalizacja</h3>
+        <p>Naprawa błędów i maksymalna wydajność.</p>
+    </div>
+    <div class="card">
+        <h3>Niskie ceny</h3>
+        <p>Szybka realizacja bez przeciągania.</p>
+    </div>
+</div>
+</section>
+
+<section>
+<h2>📂 DARMOWA STREFA</h2>
+<p>
+Skrypty • Pluginy • Mapy • Grafiki<br><br>
+Bez kombinowania. Bez haczyków.
+</p>
+</section>
+
+<section class="cta">
+<h2>🤝 WPADASZ I DZIAŁASZ</h2>
+
+<div class="stats">
+    <div class="stat">
+        <h3>42</h3>
+        <p>Online</p>
+    </div>
+    <div class="stat">
+        <h3>88</h3>
+        <p>Członków</p>
+    </div>
+    <div class="stat">
+        <h3>Sty 2026</h3>
+        <p>Start</p>
+    </div>
+</div>
+
+<br>
+
+<a href="https://discord.gg/sKH5Z5JfZH" target="_blank" class="btn btn-discord">💬 Discord</a>
+
+<a href="https://www.youtube.com/@EchoCodeNajlepszy" target="_blank" class="btn btn-youtube">
+📺 YouTube
+</a>
+
+</section>
+
+<footer>
+© 2026 EchoCode.pl | Twoja Prośba, Nasze Wykonanie
+</footer>
+
+</body>
+</html>
+
