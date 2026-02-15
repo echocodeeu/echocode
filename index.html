@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>EchoCode Store</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>EchoCode Store</h1>
+        <a id="cart-link" href="koszyk.html">Koszyk (<span id="cart-count">0</span>)</a>
+    </header>
+
+    <main class="product-list" id="products-container">
+        <div class="product" data-id="1" data-name="Kurs JavaScript" data-price="199.99">
+            <h3>Kurs JavaScript</h3>
+            <p>Cena: 199.99 PLN</p>
+            <button class="add-to-cart" onclick="addToCart(1)">Dodaj do koszyka</button>
+        </div>
+        <div class="product" data-id="2" data-name="Echo Theme" data-price="49.00">
+            <h3>Echo Theme</h3>
+            <p>Cena: 49.00 PLN</p>
+            <button class="add-to-cart" onclick="addToCart(2)">Dodaj do koszyka</button>
+        </div>
+        <div class="product" data-id="3" data-name="API Access" data-price="299.00">
+            <h3>API Access</h3>
+            <p>Cena: 299.00 PLN</p>
+            <button class="add-to-cart" onclick="addToCart(3)">Dodaj do koszyka</button>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
