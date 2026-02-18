@@ -10,16 +10,32 @@
     <div style="padding: 50px; width: 100%; max-width: 800px;">
         <a id="back-to-shop" href="index.html" style="color: gray;">← Wróć do sklepu</a>
         <h2>Twój Koszyk</h2>
+
         <ul id="cart-items" style="list-style: none; padding: 0;"></ul>
         <hr style="border: 0.5px solid #333;">
+
         <h3>Suma: <span id="cart-total">0.00</span> PLN</h3>
-        
+
+        <!-- 🔥 KOD PROMOCYJNY -->
+        <div style="margin-top:20px;">
+            <input type="text" id="promo-code" placeholder="Kod promocyjny"
+                style="padding:8px; border-radius:5px; border:1px solid #333;">
+            <button onclick="applyPromoCode()"
+                style="padding:8px 15px; margin-left:10px; cursor:pointer;">
+                Zastosuj
+            </button>
+            <p id="promo-message" style="margin-top:10px; font-size:14px;"></p>
+        </div>
+
         <div id="paypal-button-container" style="margin-top: 30px;"></div>
     </div>
 
     <script src="script.js"></script>
+
     <script>
-        window.onload = () => { renderCart(); };
+        window.onload = () => {
+            renderCart();
+        };
     </script>
 </body>
 </html>
