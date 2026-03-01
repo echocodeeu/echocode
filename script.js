@@ -144,10 +144,6 @@ onApprove: function (data, actions) {
         updateCartCount();
     });
 }
-// =====================
-// OBSŁUGA POLA BUDŻETU (MODAL)
-// =====================
-
 const budgetInput = document.getElementById("pluginLevel");
 const priceDisplay = document.getElementById("priceValue");
 
@@ -173,4 +169,5 @@ if (budgetInput && priceDisplay) {
     priceDisplay.textContent =
         parseInt(budgetInput.value).toLocaleString("pl-PL");
 }
+
 
