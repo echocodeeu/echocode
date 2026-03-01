@@ -1,34 +1,317 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <meta charset="UTF-8">
-    <title>EchoCode Store</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EchoCode.pl – Twoja Prośba, Nasze Wykonanie</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#0b0b12;
+    color:white;
+    overflow-x:hidden;
+}
+
+/* ANIMATED BACKGROUND */
+body::before{
+    content:"";
+    position:fixed;
+    width:200%;
+    height:200%;
+    background: radial-gradient(circle at 30% 30%, #8b5cf633, transparent 40%),
+                radial-gradient(circle at 70% 70%, #6d28d933, transparent 40%);
+    animation: moveBg 12s infinite alternate ease-in-out;
+    z-index:-1;
+}
+
+@keyframes moveBg{
+    from{ transform: translate(0,0); }
+    to{ transform: translate(-5%, -5%); }
+}
+
+header{
+    padding:40px 10%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    animation: fadeDown 1s ease forwards;
+}
+
+.logo{
+    font-size:32px;
+    font-weight:800;
+}
+
+.logo .echo{
+    color:#8b5cf6;
+    text-shadow:0 0 15px #8b5cf6aa;
+}
+
+.logo .code{
+    color:white;
+}
+
+nav a{
+    margin-left:30px;
+    text-decoration:none;
+    color:white;
+    transition:0.3s;
+}
+
+nav a:hover{
+    color:#8b5cf6;
+}
+
+/* KOSZYK */
+.cart-icon{
+    position:relative;
+    cursor:pointer;
+    margin-left:30px;
+    font-size:20px;
+}
+
+.cart-count{
+    position:absolute;
+    top:-8px;
+    right:-12px;
+    background:#8b5cf6;
+    border-radius:50%;
+    padding:3px 7px;
+    font-size:12px;
+}
+
+/* HERO */
+.hero{
+    padding:120px 10%;
+    text-align:center;
+    animation: fadeUp 1.2s ease forwards;
+}
+
+.hero h1{
+    font-size:52px;
+    font-weight:800;
+    margin-bottom:20px;
+}
+
+.hero p{
+    opacity:0.8;
+    margin-bottom:40px;
+}
+
+.btn{
+    padding:15px 40px;
+    background:#8b5cf6;
+    color:white;
+    text-decoration:none;
+    border-radius:10px;
+    font-weight:600;
+    transition:0.3s;
+    box-shadow:0 0 20px #8b5cf655;
+    border:none;
+    cursor:pointer;
+}
+
+.btn:hover{
+    background:#6d28d9;
+    transform:scale(1.05);
+    box-shadow:0 0 30px #8b5cf6aa;
+}
+
+/* SECTIONS */
+.section{
+    padding:100px 10%;
+}
+
+.section h2{
+    font-size:34px;
+    margin-bottom:50px;
+    color:#8b5cf6;
+    text-align:center;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:30px;
+}
+
+.card{
+    background:#141420;
+    padding:30px;
+    border-radius:15px;
+    transition:0.4s;
+    opacity:0;
+    transform:translateY(40px);
+}
+
+.card.show{
+    opacity:1;
+    transform:translateY(0);
+}
+
+.card:hover{
+    transform:translateY(-10px);
+    box-shadow:0 0 25px #8b5cf644;
+    background:#1b1b2a;
+}
+
+.card h3{
+    color:#8b5cf6;
+    margin-bottom:15px;
+}
+
+.price{
+    color:#a78bfa;
+    margin:15px 0;
+    font-size:20px;
+}
+
+footer{
+    padding:50px 10%;
+    text-align:center;
+    background:#11111a;
+    margin-top:60px;
+}
+
+@keyframes fadeUp{
+    from{opacity:0; transform:translateY(50px);}
+    to{opacity:1; transform:translateY(0);}
+}
+
+@keyframes fadeDown{
+    from{opacity:0; transform:translateY(-50px);}
+    to{opacity:1; transform:translateY(0);}
+}
+</style>
 </head>
+
 <body>
-    <header>
-        <h1>EchoCode Store</h1>
-        <a id="cart-link" href="koszyk.html">Koszyk (<span id="cart-count">0</span>)</a>
-    </header>
 
-    <main class="product-list" id="products-container">
-        <div class="product" data-id="1" data-name="Kurs JavaScript" data-price="199.99">
-            <h3>Kurs JavaScript</h3>
-            <p>Cena: 199.99 PLN</p>
-            <button class="add-to-cart" onclick="addToCart(1)">Dodaj do koszyka</button>
-        </div>
-        <div class="product" data-id="2" data-name="Echo Theme" data-price="49.00">
-            <h3>Echo Theme</h3>
-            <p>Cena: 49.00 PLN</p>
-            <button class="add-to-cart" onclick="addToCart(2)">Dodaj do koszyka</button>
-        </div>
-        <div class="product" data-id="3" data-name="API Access" data-price="299.00">
-            <h3>API Access</h3>
-            <p>Cena: 299.00 PLN</p>
-            <button class="add-to-cart" onclick="addToCart(3)">Dodaj do koszyka</button>
-        </div>
-    </main>
+<header>
+    <div class="logo">
+        <span class="echo">Echo</span><span class="code">Code</span>
+    </div>
 
-    <script src="script.js"></script>
+    <nav>
+        <a href="#oferta">Oferta</a>
+        <a href="#dlaczego">Dlaczego My</a>
+        <a href="#kontakt">Kontakt</a>
+    </nav>
+
+    <div class="cart-icon" onclick="goToCart()">
+        🛒
+        <span class="cart-count" id="cartCount">0</span>
+    </div>
+</header>
+
+<section class="hero">
+    <h1>S1 – Twoja Prośba, Nasze Wykonanie.</h1>
+    <p>Bez lania wody. Bez półśrodków. Bez pierdzielenia.</p>
+    <a href="https://discord.gg/sKH5Z5JfZH" class="btn">Dołącz na Discord</a>
+</section>
+
+<section class="section" id="oferta">
+    <h2>🛠️ Co Realnie Oferujemy</h2>
+    <div class="grid">
+        <div class="card"><h3>Pluginy / Skrypty / Boty</h3><p>Custom pod Minecraft i Discord.</p></div>
+        <div class="card"><h3>Mapy / Grafiki</h3><p>Profesjonalne projekty serwerowe.</p></div>
+        <div class="card"><h3>Optymalizacja</h3><p>Naprawa błędów i poprawa wydajności.</p></div>
+        <div class="card"><h3>Szybka realizacja</h3><p>Konkretne terminy, konkretne efekty.</p></div>
+    </div>
+</section>
+
+<section class="section" id="dlaczego">
+    <h2>🔥 Dlaczego My</h2>
+    <div class="grid">
+        <div class="card"><h3>Robimy to na serio</h3></div>
+        <div class="card"><h3>Nie przeciągamy terminów</h3></div>
+        <div class="card"><h3>Nie znikamy po zapłacie</h3></div>
+        <div class="card"><h3>Wsparcie po realizacji</h3></div>
+    </div>
+</section>
+
+<!-- 🔥 DODANA SEKCJA PACZEK -->
+
+<section class="section">
+    <h2>📦 Nasze Paczki</h2>
+    <div class="grid">
+
+        <div class="card">
+            <h3>ANARCHIA BOXPVP PRACTICE</h3>
+            <p>Skonfigurowana paczka pod tryb BoxPVP Practice.</p>
+            <div class="price">30 zł</div>
+            <button class="btn" onclick="addToCart('ANARCHIA BOXPVP PRACTICE',30)">Zamów</button>
+        </div>
+
+        <div class="card">
+            <h3>SURVIVAL PREMIUM</h3>
+            <p>Gotowa paczka survival z ekonomią.</p>
+            <div class="price">40 zł</div>
+            <button class="btn" onclick="addToCart('SURVIVAL PREMIUM',40)">Zamów</button>
+        </div>
+
+    </div>
+</section>
+
+<section class="section" id="kontakt">
+    <h2>🤝 Wpadasz i działasz</h2>
+    <p style="text-align:center;margin-bottom:30px;">
+        Masz pomysł – piszesz. My wyceniamy i robimy. Ty dostajesz gotowy produkt.
+    </p>
+    <div style="text-align:center;">
+        <a href="https://discord.gg/sKH5Z5JfZH" class="btn">Discord</a>
+    </div>
+</section>
+
+<footer>
+    EchoCode.pl – Twoja Prośba, Nasze Wykonanie<br>
+    Zał. styczeń 2026 | 49 online | 144 członków
+</footer>
+
+<script>
+
+/* Scroll Animation */
+const cards = document.querySelectorAll('.card');
+function reveal() {
+    const trigger = window.innerHeight * 0.85;
+    cards.forEach(card => {
+        const top = card.getBoundingClientRect().top;
+        if(top < trigger){
+            card.classList.add('show');
+        }
+    });
+}
+window.addEventListener('scroll', reveal);
+reveal();
+
+/* KOSZYK */
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+function updateCartCount(){
+    document.getElementById("cartCount").textContent = cart.length;
+}
+
+function addToCart(name, price){
+    cart.push({name, price});
+    localStorage.setItem("cart", JSON.stringify(cart));
+    updateCartCount();
+}
+
+function goToCart(){
+    window.location.href="zamowienia.html";
+}
+
+updateCartCount();
+
+</script>
+
 </body>
 </html>
