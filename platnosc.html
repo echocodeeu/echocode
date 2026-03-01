@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Płatność – EchoCode</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{
+    background:#0b0b12;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.container{
+    width:500px;
+}
+
+h1{
+    text-align:center;
+    margin-bottom:40px;
+}
+
+.pay-btn{
+    width:100%;
+    padding:18px;
+    margin-bottom:20px;
+    border:none;
+    border-radius:8px;
+    font-size:18px;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.pay-btn:hover{
+    transform:scale(1.02);
+}
+
+/* Metody płatności */
+.paypal{
+    background:#ffc439;
+    color:#003087;
+}
+
+.blik{
+    background:#2d2d2d;
+    color:white;
+}
+
+.p24{
+    background:#d32f2f;
+    color:white;
+}
+
+.card{
+    background:#3a3a3a;
+    color:white;
+}
+
+.powered{
+    text-align:center;
+    font-size:12px;
+    opacity:0.6;
+    margin-top:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Wybierz metodę płatności</h1>
+
+    <button class="pay-btn paypal" onclick="fakePay('PayPal')">
+        PayPal
+    </button>
+
+    <button class="pay-btn blik" onclick="fakePay('BLIK')">
+        BLIK
+    </button>
+
+    <button class="pay-btn p24" onclick="fakePay('Przelewy24')">
+        Przelewy24
+    </button>
+
+    <button class="pay-btn card" onclick="fakePay('Karta')">
+        Karta debetowa lub kredytowa
+    </button>
+
+    <div class="powered">Powered by PayPal</div>
+</div>
+
+<script>
+function fakePay(method){
+    alert("Wybrano metodę: " + method + "\n(Tutaj podłączasz prawdziwą bramkę płatności)");
+}
+</script>
+
+</body>
+</html>
