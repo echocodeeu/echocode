@@ -115,27 +115,3 @@ function applyPromoCode() {
 
     renderCart();
 }
-
-// =====================
-// PAYPAL
-// =====================
-function renderPayPalButton(total) {
-    const container = document.getElementById("paypal-button-container");
-    if (!container || typeof paypal === "undefined") return;
-
-    container.innerHTML = "";
-
-    paypal.Buttons({
-        createOrder: function (data, actions) {
-            return actions.order.create({
-                purchase_units: [{
-                    amount: {
-                        value: total.toFixed(2)
-                    }
-                }]
-            });
-        },
-
-
-
-
