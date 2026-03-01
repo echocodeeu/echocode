@@ -68,8 +68,11 @@ button:hover{
 <div style="margin-top:30px;">
     <button onclick="clearCart()">Anuluj Koszyk</button>
 </div>
-
-<div id="paypal-button-container" style="margin-top:40px;"></div>
+<div id="paypal-button-container" style="margin-top:40px;"></div
+ 
+    <button onclick="testPayment()" style="margin-top:20px;background:#22c55e;">
+    Test płatności
+</button>                                                              
 
 <script>
 
@@ -122,11 +125,26 @@ function renderPayPal(amount){
                 }]
             });
         },
-        onApprove: function(data, actions) {
-            return actions.order.capture().then(function(details) {
-                alert("Płatność zakończona pomyślnie.");
-                clearCart();
-            });
+       onApprove: function(data, actions) {
+    return actions.order.capture().then(function(details) {
+
+        // 🔥 generowanie numeru zamówienia
+        const orderNumber = "EC-" + Date.now();
+
+        // 🔥 zapis numeru
+        localStorage.setItem("lastOrderNumber", orderNumber);
+
+        // 🔥 okienko z numerem
+        alert(
+            "Dziękujemy za zakup, " +
+            details.payer.name.given_name +
+            "!\n\nNumer zamówienia: " +
+            orderNumber
+        );
+
+        clearCart();
+    });
+}
         }
     }).render('#paypal-button-container');
 }
@@ -137,3 +155,4 @@ displayCart();
 
 </body>
 </html>
+
