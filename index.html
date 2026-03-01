@@ -265,13 +265,19 @@ EchoCode.pl – Twoja Prośba, Nasze Wykonanie
         <textarea id="pluginDesc" placeholder="Opisz dokładnie co ma robić plugin..."></textarea>
 
         <label>Zaawansowanie:</label>
-        <input type="range" min="20" max="100" step="30" value="20" id="pluginLevel" oninput="updatePrice()">
+       <label>Budżet (20 - 1000 PLN):</label>
 
-        <div class="levels">
-            <span>Mało (20zł)</span>
-            <span>Średnio (50zł)</span>
-            <span>Bardzo (100zł)</span>
-        </div>
+<input type="range"
+       min="20"
+       max="1000"
+       step="10"
+       value="100"
+       id="pluginLevel"
+       oninput="updatePrice()">
+
+<div class="price">
+    Wybrany budżet: <span id="priceValue">100</span> PLN
+</div>
 
         <div class="price">Cena: <span id="priceValue">20</span> PLN</div>
 
@@ -335,4 +341,5 @@ function addCustomPlugin(){
 </html>
 </body>
 </html>
+
 
