@@ -119,15 +119,29 @@ function renderPayPalButton(total) {
                 }]
             });
         },
-        onApprove: function (data, actions) {
-            return actions.order.capture().then(function (details) {
-                alert("Dziękujemy za zakup, " + details.payer.name.given_name + "!");
-                cart = [];
-                localStorage.removeItem("cart");
-                discount = 0;
-                renderCart();
-                updateCartCount();
-            });
-        }
-    }).render("#paypal-button-container");
+onApprove: function (data, actions) {
+    return actions.order.capture().then(function (details) {
+
+        // 🔥 Generowanie numeru zamówienia
+        const orderNumber = "EC-" + Date.now();
+
+        // 🔥 Popup z numerem
+        alert(
+            "Dziękujemy za zakup, " +
+            details.payer.name.given_name +
+            "!\n\nNumer zamówienia: " +
+            orderNumber
+        );
+
+        // 🔥 zapis numeru lokalnie (opcjonalnie)
+        localStorage.setItem("lastOrderNumber", orderNumber);
+
+        // 🔥 czyszczenie koszyka
+        cart = [];
+        localStorage.removeItem("cart");
+        discount = 0;
+        renderCart();
+        updateCartCount();
+    });
 }
+
