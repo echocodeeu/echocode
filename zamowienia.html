@@ -67,7 +67,6 @@ button:hover{
 
 <div style="margin-top:30px;">
     <button onclick="clearCart()">Anuluj Koszyk</button>
-    <button class="secondary" onclick="goToPayment()">Przejdź do płatności</button>
 </div>
 
 <div id="paypal-button-container" style="margin-top:40px;"></div>
@@ -106,15 +105,8 @@ function clearCart(){
     localStorage.removeItem("cart");
     cart=[];
     paypalRendered=false;
+    document.getElementById("paypal-button-container").innerHTML="";
     displayCart();
-}
-
-function goToPayment(){
-    if(cart.length === 0){
-        alert("Koszyk jest pusty.");
-        return;
-    }
-    window.location.href="platnosc.html";
 }
 
 function renderPayPal(amount){
@@ -132,7 +124,7 @@ function renderPayPal(amount){
         },
         onApprove: function(data, actions) {
             return actions.order.capture().then(function(details) {
-                alert("Płatność zakończona.");
+                alert("Płatność zakończona pomyślnie.");
                 clearCart();
             });
         }
@@ -144,5 +136,4 @@ displayCart();
 </script>
 
 </body>
-
 </html>
