@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Koszyk – EchoCode</title>
+
+<script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&currency=PLN"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{background:#0b0b12;color:white;padding:80px 10%;}
+
+h1{margin-bottom:40px;}
+
+.cart-item{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:15px;
+    padding-bottom:10px;
+    border-bottom:1px solid #1e1e2e;
+}
+
+.total{
+    margin-top:20px;
+    font-size:20px;
+    color:#a78bfa;
+}
+
+button{
+    padding:12px 20px;
+    margin-top:20px;
+    background:#8b5cf6;
+    border:none;
+    color:white;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#6d28d9;
+}
+
+.secondary{
+    background:#444;
+    margin-left:10px;
+}
+
+.secondary:hover{
+    background:#555;
+}
+
+.empty{
+    opacity:0.6;
+    margin-bottom:20px;
+}
+</style>
+</head>
+<body>
+
+<h1>Twój Koszyk</h1>
+
+<div id="cartItems"></div>
+<div class="total">Suma: <span id="total">0</span> zł</div>
+
+<div style="margin-top:30px;">
+    <button onclick="clearCart()">Anuluj Koszyk</button>
+    <button class="secondary" onclick="goToPayment()">Przejdź do płatności</button>
+</div>
+
+<div id="paypal-button-container" style="margin-top:40px;"></div>
+
+<script>
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let paypalRendered = false;
+
+function displayCart(){
+    const container = document.getElementById("cartItems");
+    const totalElement = document.getElementById("total");
+    container.innerHTML="";
+    let sum=0;
+
+    if(cart.length === 0){
+        container.innerHTML = "<div class='empty'>Koszyk jest pusty.</div>";
+        totalElement.textContent = "0";
+        document.getElementById("paypal-button-container").innerHTML="";
+        return;
+    }
+
+    cart.forEach(item=>{
+        let div=document.createElement("div");
+        div.className="cart-item";
+        div.innerHTML=`<span>${item.name}</span><span>${item.price} zł</span>`;
+        container.appendChild(div);
+        sum+=item.price;
+    });
+
+    totalElement.textContent=sum;
+    renderPayPal(sum);
+}
+
+function clearCart(){
+    localStorage.removeItem("cart");
+    cart=[];
+    paypalRendered=false;
+    displayCart();
+}
+
+function goToPayment(){
+    if(cart.length === 0){
+        alert("Koszyk jest pusty.");
+        return;
+    }
+    window.location.href="platnosc.html";
+}
+
+function renderPayPal(amount){
+    if(amount<=0 || paypalRendered) return;
+
+    paypalRendered = true;
+
+    paypal.Buttons({
+        createOrder: function(data, actions) {
+            return actions.order.create({
+                purchase_units: [{
+                    amount: { value: amount.toString() }
+                }]
+            });
+        },
+        onApprove: function(data, actions) {
+            return actions.order.capture().then(function(details) {
+                alert("Płatność zakończona.");
+                clearCart();
+            });
+        }
+    }).render('#paypal-button-container');
+}
+
+displayCart();
+
+</script>
+
+</body>
+</html>
