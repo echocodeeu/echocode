@@ -38,36 +38,52 @@ updateCartCount();
 // =====================
 // RENDER KOSZYKA
 // =====================
-function renderCart() {
-    const cartItems = document.getElementById("cart-items");
-    const totalElement = document.getElementById("cart-total");
+function renderPayPalButton(total) {
+    const container = document.getElementById("paypal-button-container");
+    if (!container || typeof paypal === "undefined") return;
 
-    if (!cartItems) return;
+    container.innerHTML = "";
 
-    cartItems.innerHTML = "";
+    paypal.Buttons({
 
-    let total = 0;
+        createOrder: function (data, actions) {
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: total.toFixed(2)
+                    }
+                }]
+            });
+        },
 
-    cart.forEach((item, index) => {
-        total += item.price;
+        onApprove: function (data, actions) {
+            return actions.order.capture().then(function (details) {
 
-        const li = document.createElement("li");
-        li.style.marginBottom = "10px";
-        li.innerHTML = `
-            ${item.name} - ${item.price.toFixed(2)} PLN
-            <button onclick="removeFromCart(${index})" style="margin-left:10px;">Usuń</button>
-        `;
-        cartItems.appendChild(li);
-    });
+                // 🔥 Generowanie numeru zamówienia
+                const orderNumber = "EC-" + Date.now();
 
-    // 🔥 ZASTOSOWANIE RABATU
-    if (discount > 0) {
-        total = total - (total * discount / 100);
-    }
+                // 🔥 Popup z numerem
+                alert(
+                    "Dziękujemy za zakup, " +
+                    details.payer.name.given_name +
+                    "!\n\nNumer zamówienia: " +
+                    orderNumber
+                );
 
-    totalElement.innerText = total.toFixed(2);
+                // 🔥 zapis numeru lokalnie
+                localStorage.setItem("lastOrderNumber", orderNumber);
 
-    renderPayPalButton(total);
+                // 🔥 czyszczenie koszyka
+                cart = [];
+                localStorage.removeItem("cart");
+                discount = 0;
+
+                renderCart();
+                updateCartCount();
+            });
+        }
+
+    }).render("#paypal-button-container");
 }
 
 // =====================
@@ -169,5 +185,6 @@ if (budgetInput && priceDisplay) {
     priceDisplay.textContent =
         parseInt(budgetInput.value).toLocaleString("pl-PL");
 }
+
 
 
