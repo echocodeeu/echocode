@@ -38,31 +38,39 @@ updateCartCount();
 // =====================
 // RENDER KOSZYKA
 // =====================
-function renderPayPalButton(total) {
+function renderPayPal(amount){
     const container = document.getElementById("paypal-button-container");
-    if (!container || typeof paypal === "undefined") return;
+
+    if(amount <= 0){
+        container.innerHTML = "";
+        return;
+    }
 
     container.innerHTML = "";
 
     paypal.Buttons({
+        style: {
+            layout: 'vertical',
+            color: 'gold',
+            shape: 'rect',
+            label: 'paypal'
+        },
 
-        createOrder: function (data, actions) {
+        createOrder: function(data, actions) {
             return actions.order.create({
                 purchase_units: [{
-                    amount: {
-                        value: total.toFixed(2)
-                    }
+                    amount: { value: amount.toFixed(2) }
                 }]
             });
         },
 
-        onApprove: function (data, actions) {
-            return actions.order.capture().then(function (details) {
+        onApprove: function(data, actions) {
+            return actions.order.capture().then(function(details) {
 
-                // 🔥 Generowanie numeru zamówienia
                 const orderNumber = "EC-" + Date.now();
 
-                // 🔥 Popup z numerem
+                localStorage.setItem("lastOrderNumber", orderNumber);
+
                 alert(
                     "Dziękujemy za zakup, " +
                     details.payer.name.given_name +
@@ -70,20 +78,11 @@ function renderPayPalButton(total) {
                     orderNumber
                 );
 
-                // 🔥 zapis numeru lokalnie
-                localStorage.setItem("lastOrderNumber", orderNumber);
-
-                // 🔥 czyszczenie koszyka
-                cart = [];
-                localStorage.removeItem("cart");
-                discount = 0;
-
-                renderCart();
-                updateCartCount();
+                clearCart();
             });
         }
 
-    }).render("#paypal-button-container");
+    }).render('#paypal-button-container');
 }
 
 // =====================
@@ -115,3 +114,4 @@ function applyPromoCode() {
 
     renderCart();
 }
+
