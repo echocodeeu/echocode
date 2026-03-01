@@ -144,4 +144,33 @@ onApprove: function (data, actions) {
         updateCartCount();
     });
 }
+// =====================
+// OBSŁUGA POLA BUDŻETU (MODAL)
+// =====================
+
+const budgetInput = document.getElementById("pluginLevel");
+const priceDisplay = document.getElementById("priceValue");
+
+if (budgetInput && priceDisplay) {
+
+    budgetInput.addEventListener("input", function () {
+        let value = parseInt(this.value);
+
+        if (isNaN(value) || value < 1) {
+            value = 1;
+        }
+
+        if (value > 1000) {
+            value = 1000;
+        }
+
+        this.value = value;
+
+        priceDisplay.textContent = value.toLocaleString("pl-PL");
+    });
+
+    // Ustawienie początkowej wartości
+    priceDisplay.textContent =
+        parseInt(budgetInput.value).toLocaleString("pl-PL");
+}
 
