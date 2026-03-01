@@ -185,6 +185,25 @@ if (budgetInput && priceDisplay) {
     priceDisplay.textContent =
         parseInt(budgetInput.value).toLocaleString("pl-PL");
 }
+    function testPayment() {
+
+    // 🔥 generowanie numeru zamówienia
+    const orderNumber = "EC-" + Date.now();
+
+    alert("TEST PŁATNOŚCI\n\nNumer zamówienia: " + orderNumber);
+
+    // 🔥 zapis numeru
+    localStorage.setItem("lastOrderNumber", orderNumber);
+
+    // 🔥 czyszczenie koszyka
+    cart = [];
+    localStorage.removeItem("cart");
+    discount = 0;
+
+    renderCart();
+    updateCartCount();
+}
+
 
 
 
