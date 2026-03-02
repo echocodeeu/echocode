@@ -329,13 +329,35 @@ function addCustomPlugin(){
     cart.push(product);
     localStorage.setItem("cart", JSON.stringify(cart));
 
+    // 🔥 TU WKLEJ SWÓJ NOWY WEBHOOK
+    fetch("https://discord.com/api/webhooks/1478003454646419631/EvjNeqaEBPfmdvH--rqB0YKf4845lbxtJdrtsOdc0fpxEZ_kXUQV-dEPcDeI_7yec3Sp", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            embeds: [{
+                title: "🛒 Nowe dodanie do koszyka",
+                color: 10181046,
+                fields: [
+                    { name: "Produkt", value: product.name },
+                    { name: "Cena", value: product.price + " PLN" },
+                    { name: "Nick Discord", value: product.nick },
+                    { name: "Opis", value: product.description }
+                ],
+                timestamp: new Date()
+            }]
+        })
+    });
+
     closeModal();
-    alert("Dodano do koszyka!");
+    alert("Dodano do koszyka i wysłano zgłoszenie!");
 }
 </script>
 
 </body>
 </html>
+
 
 
 
