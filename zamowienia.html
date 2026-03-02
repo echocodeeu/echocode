@@ -78,7 +78,7 @@ function displayCart(){
     cart.forEach(item => {
         let div = document.createElement("div");
         div.className = "cart-item";
-        div.innerHTML = `<span>zl{item.name}</span><span>zl{item.price} zł</span>`;
+        div.innerHTML = `<span>${item.name}</span><span>${item.price} zł</span>`;
         container.appendChild(div);
         sum += item.price;
     });
@@ -144,5 +144,6 @@ displayCart();
 
 </body>
 </html>
+
 
 
