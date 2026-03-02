@@ -180,8 +180,6 @@ footer{
     from{opacity:0; transform:translateY(-50px);}
     to{opacity:1; transform:translateY(0);}
 }
-
-/* ===== TOAST ===== */
 .toast-container{
     position: fixed;
     bottom: 20px;
@@ -358,11 +356,10 @@ function addCustomPlugin(){
     const desc = document.getElementById("pluginDesc").value;
     const price = document.getElementById("pluginLevel").value;
 
-    if(!nick || !desc){
-        alert("Uzupełnij wszystkie pola.");
-        return;
-    }
-
+  if(!nick || !desc){
+    showToast("Nie uzupełniłeś wszystkich pól!", "error");
+    return;
+}
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
     const product = {
@@ -427,6 +424,7 @@ function showToast(message, type){
 <div id="toastContainer" class="toast-container"></div>
 </body>
 </html>
+
 
 
 
