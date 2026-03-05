@@ -7,23 +7,45 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif; scroll-behavior: smooth;}
 body{background:#0b0b12;color:white;overflow-x:hidden;}
 
-/* ANIMATED BACKGROUND */
-body::before{
+/* --- ULEPSZONE ANIMOWANE TŁO --- */
+body::before {
     content:"";
     position:fixed;
-    width:200%;
-    height:200%;
-    background: radial-gradient(circle at 30% 30%, #8b5cf633, transparent 40%),
-                radial-gradient(circle at 70% 70%, #6d28d933, transparent 40%);
-    animation: moveBg 12s infinite alternate ease-in-out;
-    z-index:-1;
+    width:300%;
+    height:300%;
+    background: 
+        radial-gradient(circle at 20% 20%, #8b5cf615, transparent 25%),
+        radial-gradient(circle at 80% 80%, #06b6d415, transparent 25%),
+        radial-gradient(circle at 50% 50%, #6d28d910, transparent 40%);
+    animation: moveBg 20s infinite linear;
+    z-index:-2;
 }
-@keyframes moveBg{
-    from{ transform: translate(0,0); }
-    to{ transform: translate(-5%, -5%); }
+
+/* Dodatkowe pływające światła */
+.blob {
+    position: fixed;
+    width: 500px;
+    height: 500px;
+    background: #8b5cf6;
+    filter: blur(120px);
+    border-radius: 50%;
+    z-index: -1;
+    opacity: 0.15;
+    pointer-events: none;
+    animation: float 15s infinite alternate;
+}
+
+@keyframes moveBg {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes float {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(100px, 150px); }
 }
 
 header{
@@ -31,10 +53,13 @@ header{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    animation: fadeDown 1s ease forwards;
+    animation: fadeDown 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    position: relative;
+    z-index: 10;
 }
 
-.logo{font-size:32px;font-weight:800;}
+.logo{font-size:32px;font-weight:800; cursor: pointer; transition: 0.3s;}
+.logo:hover { transform: scale(1.05); }
 .logo .echo{color:#8b5cf6;text-shadow:0 0 15px #8b5cf6aa;}
 .logo .code{color:white;}
 
@@ -43,16 +68,34 @@ nav a{
     text-decoration:none;
     color:white;
     transition:0.3s;
+    position: relative;
 }
+nav a::after {
+    content: '';
+    position: absolute;
+    width: 0; height: 2px;
+    bottom: -5px; left: 0;
+    background: #8b5cf6;
+    transition: 0.3s;
+}
+nav a:hover::after { width: 100%; }
 nav a:hover{color:#8b5cf6;}
 
 .hero{
     padding:120px 10%;
     text-align:center;
-    animation: fadeUp 1.2s ease forwards;
+    animation: fadeUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    position: relative;
 }
-.hero h1{font-size:52px;font-weight:800;margin-bottom:20px;}
-.hero p{opacity:0.8;margin-bottom:40px;}
+.hero h1{
+    font-size:62px; 
+    font-weight:800; 
+    margin-bottom:20px;
+    background: linear-gradient(to right, #fff, #8b5cf6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.hero p{font-size: 1.2rem; opacity:0; animation: fadeIn 1s 0.5s forwards; margin-bottom:40px;}
 
 .btn{
     padding:15px 40px;
@@ -61,117 +104,145 @@ nav a:hover{color:#8b5cf6;}
     text-decoration:none;
     border-radius:10px;
     font-weight:600;
-    transition:0.3s;
+    transition:0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     box-shadow:0 0 20px #8b5cf655;
     border:none;
     cursor:pointer;
+    display: inline-block;
 }
 .btn:hover{
     background:#6d28d9;
-    transform:scale(1.05);
-    box-shadow:0 0 30px #8b5cf6aa;
+    transform:scale(1.1) translateY(-5px);
+    box-shadow:0 15px 30px #8b5cf6aa;
 }
 
 /* SECTIONS */
-.section{padding:100px 10%;}
+.section{padding:100px 10%; position: relative;}
 .section h2{
-    font-size:34px;
+    font-size:38px;
     margin-bottom:50px;
     color:#8b5cf6;
     text-align:center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
+
 .grid{
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
     gap:30px;
 }
+
 .card{
-    background:#141420;
-    padding:30px;
-    border-radius:15px;
-    transition:0.4s;
+    background: rgba(20, 20, 32, 0.6);
+    backdrop-filter: blur(10px);
+    padding:40px;
+    border-radius:20px;
+    border: 1px solid rgba(139, 92, 246, 0.1);
+    transition:0.5s;
     opacity:0;
-    transform:translateY(40px);
+    transform:translateY(60px) rotateX(-10deg);
 }
+
 .card.show{
     opacity:1;
-    transform:translateY(0);
+    transform:translateY(0) rotateX(0);
 }
+
 .card:hover{
-    transform:translateY(-10px);
-    box-shadow:0 0 25px #8b5cf644;
-    background:#1b1b2a;
+    transform:translateY(-15px) scale(1.02);
+    box-shadow:0 20px 40px rgba(139, 92, 246, 0.2);
+    background: rgba(27, 27, 42, 0.8);
+    border-color: rgba(139, 92, 246, 0.5);
 }
-.card h3{color:#8b5cf6;margin-bottom:15px;}
-.price{margin:15px 0;color:#a78bfa;font-size:18px;}
+
+.card h3{color:#8b5cf6; margin-bottom:15px; font-size: 22px;}
+.price{margin:15px 0;color:#a78bfa;font-size:22px; font-weight: 800;}
 
 /* FOOTER */
 footer{
     padding:50px 10%;
     text-align:center;
-    background:#11111a;
+    background:#08080e;
+    border-top: 1px solid rgba(139, 92, 246, 0.1);
     margin-top:60px;
 }
 
-/* MODAL */
+/* MODAL ULEPSZONY */
 .modal{
     display:none;
     position:fixed;
     top:0;left:0;
     width:100%;height:100%;
-    background:rgba(0,0,0,0.7);
+    background:rgba(0,0,0,0.8);
+    backdrop-filter: blur(8px);
     justify-content:center;
     align-items:center;
     z-index:999;
 }
+
 .modal-content{
     background:#141420;
     padding:40px;
-    width:480px;
-    border-radius:15px;
-    border:1px solid #8b5cf6;
+    width:90%;
+    max-width:500px;
+    border-radius:20px;
+    border: 2px solid #8b5cf6;
     position:relative;
+    animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
+
+@keyframes modalPop {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
 .close{
     position:absolute;
     top:15px;right:20px;
     cursor:pointer;
-    font-size:22px;
+    font-size:28px;
+    transition: 0.3s;
 }
+.close:hover { color: #8b5cf6; transform: rotate(90deg); }
+
 .modal input,
 .modal textarea{
     width:100%;
     margin:10px 0 20px 0;
-    padding:12px;
-    background:#1b1b2a;
-    border:none;
-    border-radius:8px;
-    color:white;
-}
-.modal textarea{min-height:100px;resize:none;}
-.levels{
-    display:flex;
-    justify-content:space-between;
-    font-size:12px;
-    opacity:0.7;
-}
-.modal .price{
-    margin:20px 0;
-    color:#a78bfa;
-    font-size:18px;
-}
-.order-btn{
-    width:100%;
     padding:15px;
-    background:linear-gradient(90deg,#7c3aed,#06b6d4);
-    border:none;
+    background:#1b1b2a;
+    border: 1px solid rgba(139, 92, 246, 0.2);
     border-radius:10px;
     color:white;
+    outline: none;
+    transition: 0.3s;
+}
+
+.modal input:focus, .modal textarea:focus {
+    border-color: #8b5cf6;
+    box-shadow: 0 0 10px rgba(139, 92, 246, 0.3);
+}
+
+.order-btn{
+    width:100%;
+    padding:18px;
+    background: linear-gradient(90deg, #8b5cf6, #06b6d4);
+    border:none;
+    border-radius:12px;
+    color:white;
     cursor:pointer;
-    font-weight:600;
+    font-weight:700;
+    font-size: 16px;
+    transition: 0.3s;
+}
+.order-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(6, 182, 212, 0.4);
 }
 
 /* KEYFRAMES */
+@keyframes fadeIn { to { opacity: 1; } }
 @keyframes fadeUp{
     from{opacity:0; transform:translateY(50px);}
     to{opacity:1; transform:translateY(0);}
@@ -180,6 +251,8 @@ footer{
     from{opacity:0; transform:translateY(-50px);}
     to{opacity:1; transform:translateY(0);}
 }
+
+/* TOASTS */
 .toast-container{
     position: fixed;
     bottom: 20px;
@@ -189,45 +262,29 @@ footer{
     gap: 10px;
     z-index: 9999;
 }
-
 .toast{
-    min-width: 260px;
-    padding: 14px 20px;
-    border-radius: 8px;
+    min-width: 280px;
+    padding: 16px 24px;
+    border-radius: 12px;
     color: white;
     font-weight: 600;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.5);
     transform: translateX(120%);
     opacity: 0;
-    animation: slideIn 0.4s forwards;
+    animation: slideIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
+.toast.success{ background: linear-gradient(135deg, #10b981, #059669); }
+.toast.error{ background: linear-gradient(135deg, #ef4444, #b91c1c); }
 
-.toast.success{
-    background: linear-gradient(135deg, #16a34a, #22c55e);
-}
-
-.toast.error{
-    background: linear-gradient(135deg, #dc2626, #ef4444);
-}
-
-@keyframes slideIn{
-    to{
-        transform: translateX(0);
-        opacity: 1;
-    }
-}
-
-@keyframes slideOut{
-    to{
-        transform: translateX(120%);
-        opacity: 0;
-    }
-}
+@keyframes slideIn{ to{ transform: translateX(0); opacity: 1; } }
+@keyframes slideOut{ to{ transform: translateX(120%); opacity: 0; } }
 
 </style>
 </head>
 
 <body>
+
+<div class="blob"></div>
 
 <header>
     <div class="logo">
@@ -242,8 +299,8 @@ footer{
 </header>
 
 <section class="hero">
-    <h1>S1 – Twoja Prośba, Nasze Wykonanie.</h1>
-    <p>Bez lania wody. Bez półśrodków.</p>
+    <h1>S1 – Twoja Prośba,<br>Nasze Wykonanie.</h1>
+    <p>Bez lania wody. Bez półśrodków. Tworzymy kod, który po prostu działa.</p>
     <a href="https://discord.gg/sKH5Z5JfZH" class="btn">Dołącz na Discord</a>
 </section>
 
@@ -252,83 +309,76 @@ footer{
     <div class="grid">
         <div class="card">
             <h3>Pluginy / Skrypty / Boty</h3>
-            <p>Custom pod Minecraft i Discord.</p>
+            <p>Pełna personalizacja pod Twój serwer Minecraft i Discord. Optymalny kod i łatwa konfiguracja.</p>
         </div>
         <div class="card">
             <h3>Mapy / Grafiki</h3>
-            <p>Profesjonalne projekty serwerowe.</p>
+            <p>Od spawnów po logotypy. Profesjonalne podejście do estetyki Twojego projektu.</p>
         </div>
         <div class="card">
             <h3>Optymalizacja</h3>
-            <p>Naprawa błędów i poprawa wydajności.</p>
+            <p>Twój serwer laguje? Znajdziemy przyczynę, wyeliminujemy błędy i zwiększymy TPS.</p>
         </div>
         <div class="card">
             <h3>Szybka realizacja</h3>
-            <p>Konkretne terminy, konkretne efekty.</p>
+            <p>Szanujemy Twój czas. Ustalony termin to dla nas świętość. Żadnych wymówek.</p>
         </div>
     </div>
 </section>
 
-<!-- PRODUKT: ZAMÓW PLUGIN -->
 <section class="section">
-    <h2>📦 Zamów Indywidualny Plugin</h2>
+    <h2>📦 Zamów Indywidualny Produkt</h2>
     <div class="grid">
-        <div class="card">
-            <h3>Custom Plugin</h3>
-            <p>Wycena zależna od poziomu zaawansowania.</p>
+        <div class="card" style="margin: 0 auto; max-width: 400px; text-align: center; border: 1px solid #8b5cf6;">
+            <h3>Custom Order</h3>
+            <p>Wycena zależna od Twoich potrzeb i złożoności zlecenia.</p>
             <div class="price">od 20 PLN</div>
-            <button class="btn" onclick="openModal()">Zamów Plugin</button>
+            <button class="btn" onclick="openModal()">Rozpocznij Zamówienie</button>
         </div>
     </div>
 </section>
 
 <section class="section" id="kontakt">
     <h2>🤝 Wpadasz i działasz</h2>
-    <p style="text-align:center;margin-bottom:30px;">
-        Masz pomysł – piszesz. My wyceniamy i robimy.
+    <p style="text-align:center;margin-bottom:30px; font-size: 1.1rem;">
+        Masz unikalny pomysł? Nie czekaj. <br> Opisz nam go, a my zajmiemy się resztą.
     </p>
     <div style="text-align:center;">
-        <a href="https://discord.gg/sKH5Z5JfZH" class="btn">Discord</a>
+        <a href="https://discord.gg/sKH5Z5JfZH" class="btn">Otwórz Ticket na Discord</a>
     </div>
 </section>
 
 <footer>
-EchoCode.pl – Twoja Prośba, Nasze Wykonanie
+    &copy; 2026 EchoCode.pl – Wszelkie prawa zastrzeżone.
 </footer>
-<!-- MODAL -->
+
 <div id="pluginModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal()">×</span>
-        <h2>Zamów Plugin</h2>
+        <h2 style="margin-bottom: 20px;">Nowe zlecenie</h2>
 
         <label>Twój Nick na Discord:</label>
         <input type="text" id="discordNick" placeholder="np. gracz#1234">
 
-        <label>Opis pluginu:</label>
-        <textarea id="pluginDesc" placeholder="Opisz dokładnie co ma robić plugin..."></textarea>
+        <label>Opis zlecenia:</label>
+        <textarea id="pluginDesc" placeholder="Opisz dokładnie co mamy stworzyć..."></textarea>
 
-        <label>Budżet (20 - 1000 PLN):</label>
-        <input type="range"
-               min="20"
-               max="1000"
-               step="10"
-               value="1"
-               id="pluginLevel"
-               oninput="updatePrice()">
+        <label>Szacowany Budżet (PLN):</label>
+        <input type="range" min="20" max="1000" step="10" value="20" id="pluginLevel" oninput="updatePrice()">
 
-        <div class="price">
-            Wybrany budżet: <span id="priceValue">1</span> PLN
+        <div class="price" style="text-align: center;">
+            <span id="priceValue">20</span> PLN
         </div>
 
-        <button class="order-btn" onclick="addCustomPlugin()">Dodaj do koszyka</button>
+        <button class="order-btn" onclick="addCustomPlugin()">Dodaj do koszyka i Wyślij</button>
     </div>
 </div>
 
 <script>
-/* Scroll Animation */
+/* Scroll Animation z ulepszonym efektem reveal */
 const cards = document.querySelectorAll('.card');
 function reveal() {
-    const trigger = window.innerHeight * 0.85;
+    const trigger = window.innerHeight * 0.9;
     cards.forEach(card => {
         const top = card.getBoundingClientRect().top;
         if(top < trigger){
@@ -339,6 +389,14 @@ function reveal() {
 window.addEventListener('scroll', reveal);
 reveal();
 
+/* Mouse Movement for Background Glow */
+const blob = document.querySelector('.blob');
+document.addEventListener('mousemove', (e) => {
+    const x = e.clientX - 250;
+    const y = e.clientY - 250;
+    blob.style.transform = `translate(${x}px, ${y}px)`;
+});
+
 /* MODAL LOGIC */
 function openModal(){
     document.getElementById("pluginModal").style.display="flex";
@@ -348,20 +406,20 @@ function closeModal(){
 }
 function updatePrice(){
     const level = document.getElementById("pluginLevel").value;
-    document.getElementById("priceValue").textContent =
-        parseInt(level).toLocaleString("pl-PL");
+    document.getElementById("priceValue").textContent = parseInt(level).toLocaleString("pl-PL");
 }
+
 function addCustomPlugin(){
     const nick = document.getElementById("discordNick").value;
     const desc = document.getElementById("pluginDesc").value;
     const price = document.getElementById("pluginLevel").value;
 
-  if(!nick || !desc){
-    showToast("Nie uzupełniłeś wszystkich pól!", "error");
-    return;
-}
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    if(!nick || !desc){
+        showToast("Uzupełnij nick oraz opis!", "error");
+        return;
+    }
 
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
     const product = {
         name: "Custom Plugin",
         price: parseInt(price),
@@ -372,67 +430,46 @@ function addCustomPlugin(){
     cart.push(product);
     localStorage.setItem("cart", JSON.stringify(cart));
 
-    // 🔥 TU WKLEJ SWÓJ NOWY WEBHOOK
     fetch("https://discord.com/api/webhooks/1478003454646419631/EvjNeqaEBPfmdvH--rqB0YKf4845lbxtJdrtsOdc0fpxEZ_kXUQV-dEPcDeI_7yec3Sp", {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
             embeds: [{
-                title: "🛒 Nowe dodanie do koszyka",
-                color: 10181046,
+                title: "🛒 Nowe zamówienie w koszyku",
+                color: 9140214,
                 fields: [
-                    { name: "Produkt", value: product.name },
-                    { name: "Cena", value: product.price + " PLN" },
+                    { name: "Produkt", value: product.name, inline: true },
+                    { name: "Budżet", value: product.price + " PLN", inline: true },
                     { name: "Nick Discord", value: product.nick },
-                    { name: "Opis", value: product.description }
+                    { name: "Opis projektu", value: product.description }
                 ],
+                footer: { text: "System EchoCode" },
                 timestamp: new Date()
             }]
         })
     });
 
     closeModal();
-    showToast("Dodano do koszyka!", "success");
+    showToast("Zlecenie trafiło do koszyka!", "success");
 }
 
 function showToast(message, type){
     const container = document.getElementById("toastContainer");
-
     const toast = document.createElement("div");
-    toast.classList.add("toast");
-
-    if(type === "success"){
-        toast.classList.add("success");
-    } else {
-        toast.classList.add("error");
-    }
-
+    toast.classList.add("toast", type);
     toast.textContent = message;
     container.appendChild(toast);
 
     setTimeout(() => {
         toast.style.animation = "slideOut 0.4s forwards";
-        setTimeout(() => {
-            toast.remove();
-        }, 400);
-    }, 3000);
+        setTimeout(() => toast.remove(), 400);
+    }, 3500);
 }
 </script>
 
 <div id="toastContainer" class="toast-container"></div>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
 
 
 
