@@ -2,321 +2,57 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Koszyk | EchoCode</title>
     <script src="https://www.paypal.com/sdk/js?client-id=AWRPmyYat0AVU0yOtzFDvaOwmLzI7zA18BrxiITvdnd7KRhqgYKCDRzXGf6-60Dsi4vUKIW50vymZI-&currency=PLN"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <style>
-        :root {
-            --accent: #8b5cf6;
-            --danger: #ff4d4d;
-            --card-bg: rgba(17, 17, 26, 0.85);
-            --input-bg: #1a1a26;
-        }
-
-        body { 
-            background: #050508; 
-            color: #e2e8f0; 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        /* --- ANIMOWANE TŁO --- */
-        .bg-blob {
-            position: fixed;
-            width: 600px;
-            height: 600px;
-            border-radius: 50%;
-            z-index: -1;
-            filter: blur(100px);
-            animation: move 25s infinite alternate;
-            pointer-events: none;
-        }
-
-        .blob-1 { 
-            top: -150px; 
-            left: -150px; 
-            background: radial-gradient(circle, rgba(139, 92, 246, 0.25) 0%, rgba(0,0,0,0) 70%); 
-        }
-
-        .blob-2 { 
-            bottom: -150px; 
-            right: -150px; 
-            background: radial-gradient(circle, rgba(239, 68, 68, 0.15) 0%, rgba(0,0,0,0) 70%); 
-            animation-delay: -7s;
-        }
-
-        @keyframes move {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(150px, 100px) scale(1.2); }
-        }
-
-        /* Delikatny szum dla lepszej tekstury */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: url('https://grainy-gradients.vercel.app/noise.svg');
-            opacity: 0.04;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        /* --- KONTENER --- */
-        .container { 
-            background: var(--card-bg);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            width: 100%;
-            max-width: 500px;
-            padding: 40px; 
-            border-radius: 32px; 
-            border: 1px solid rgba(139, 92, 246, 0.25); 
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
-            position: relative;
-            z-index: 10;
-        }
-
-        h1 { 
-            font-weight: 800; 
-            font-size: 1.8rem; 
-            margin-bottom: 30px; 
-            display: flex; 
-            align-items: center; 
-            gap: 12px;
-            letter-spacing: -1px;
-        }
-
-        /* --- PRODUKTY --- */
-        .cart-item { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center;
-            padding: 16px 20px; 
-            background: rgba(255, 255, 255, 0.04); 
-            margin-bottom: 12px; 
-            border-radius: 18px; 
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .cart-item:hover {
-            background: rgba(139, 92, 246, 0.08);
-            border-color: var(--accent);
-            transform: translateY(-3px) scale(1.01);
-        }
-
-        .item-info b { display: block; font-size: 1.05rem; color: #fff; }
-        .item-info span { font-size: 0.85rem; color: #a78bfa; font-weight: 600; }
-
-        .remove-btn { 
-            background: rgba(255, 77, 77, 0.12); 
-            color: var(--danger); 
-            border: none; 
-            width: 40px; 
-            height: 40px; 
-            border-radius: 14px; 
-            cursor: pointer; 
-            transition: all 0.2s;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .remove-btn:hover { 
-            background: var(--danger); 
-            color: white; 
-            box-shadow: 0 0 20px rgba(255, 77, 77, 0.4);
-            transform: rotate(8deg);
-        }
-
-        /* --- RABAT --- */
-        .promo-box { margin-top: 25px; }
-        .promo-box label { font-size: 11px; color: #94a3b8; margin-bottom: 8px; display: block; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600; }
-        
-        .promo-input-group { display: flex; gap: 10px; }
-
-        input { 
-            flex: 1; 
-            padding: 14px 18px; 
-            background: var(--input-bg); 
-            border: 1px solid #2d2d3d; 
-            border-radius: 16px; 
-            color: white; 
-            font-family: inherit;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-
-        input:focus { border-color: var(--accent); }
-
-        .btn-apply { 
-            background: var(--accent); 
-            border: none; 
-            padding: 0 24px; 
-            color: white; 
-            border-radius: 16px; 
-            cursor: pointer; 
-            font-weight: 700;
-            transition: 0.3s;
-        }
-
-        .btn-apply:hover { filter: brightness(1.2); transform: translateY(-1px); }
-
-        /* --- PODSUMOWANIE --- */
-        .summary { 
-            margin: 30px 0; 
-            padding-top: 25px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center;
-        }
-
-        .summary .label { font-size: 1.1rem; color: #94a3b8; }
-        .summary .price { font-size: 2rem; font-weight: 800; color: #fff; text-shadow: 0 0 20px rgba(139, 92, 246, 0.3); }
-
-        /* --- NAWIGACJA --- */
-        .empty-cart { text-align: center; color: #64748b; padding: 30px 0; font-style: italic; }
-        
-        .clear-link { 
-            display: block; text-align: center; color: #475569; 
-            text-decoration: none; font-size: 13px; margin-top: 25px; transition: 0.2s;
-        }
-        .clear-link:hover { color: var(--danger); }
-
-        .back-btn {
-            display: block; text-align: center; margin-top: 15px;
-            color: var(--accent); text-decoration: none; font-weight: 600; font-size: 14px;
-            transition: 0.3s;
-        }
-        .back-btn:hover { letter-spacing: 0.5px; }
-
+        body { background: #050508; color: white; font-family: sans-serif; display: flex; justify-content: center; padding: 50px; }
+        .container { background: #11111a; padding: 30px; border-radius: 20px; width: 400px; border: 1px solid #8b5cf6; }
+        .item { display: flex; justify-content: space-between; margin-bottom: 10px; padding: 10px; background: #1a1a26; border-radius: 10px; }
     </style>
 </head>
 <body>
-
-<div class="bg-blob blob-1"></div>
-<div class="bg-blob blob-2"></div>
-
-<div class="container">
-    <h1><i class="fas fa-shopping-cart" style="color:var(--accent)"></i> Koszyk</h1>
-    
-    <div id="cartItems">
+    <div class="container">
+        <h2>Twój Koszyk</h2>
+        <div id="cartItems"></div>
+        <hr style="margin: 20px 0; opacity: 0.1;">
+        <div style="display:flex; justify-content:space-between; font-size: 20px; font-weight: bold;">
+            <span>Suma:</span> <span id="total">0.00 PLN</span>
         </div>
-
-    <div class="promo-box">
-        <label>Masz kod rabatowy?</label>
-        <div class="promo-input-group">
-            <input type="text" id="promoInput" placeholder="Np. START">
-            <button class="btn-apply" onclick="applyPromo()">Zastosuj</button>
-        </div>
-        <p id="promoMsg" style="color:#10b981; font-size:12px; display:none; margin-top:10px; font-weight:600;"></p>
+        <div id="paypal-button-container" style="margin-top: 20px;"></div>
+        <a href="index.html" style="color: #8b5cf6; text-decoration: none; display: block; text-align: center; margin-top: 20px;">Wróć do sklepu</a>
     </div>
 
-    <div class="summary">
-        <span class="label">Do zapłaty</span>
-        <span class="price" id="total">0.00 PLN</span>
-    </div>
-    
-    <div id="paypal-button-container"></div>
-
-    <a href="#" class="clear-link" onclick="clearCart()">Opróżnij koszyk</a>
-    <a href="index.html" class="back-btn">← Wróć do sklepu</a>
-</div>
-
-<script>
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const CODES = { "START": 0.10, "ECHO20": 0.20 };
-    let discount = 0;
-
-    function displayCart() {
+    <script>
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
         const container = document.getElementById("cartItems");
-        const totalElement = document.getElementById("total");
-        
-        if (cart.length === 0) {
-            container.innerHTML = `<div class="empty-cart">Twój koszyk jest pusty</div>`;
-            totalElement.innerText = "0.00 PLN";
-            document.getElementById("paypal-button-container").innerHTML = "";
-            return;
-        }
-
-        container.innerHTML = "";
         let sum = 0;
 
-        cart.forEach((item, index) => {
+        cart.forEach(item => {
             sum += item.price;
-            container.innerHTML += `
-                <div class="cart-item">
-                    <div class="item-info">
-                        <b>${item.name}</b>
-                        <span>${item.price.toFixed(2)} PLN</span>
-                    </div>
-                    <button class="remove-btn" onclick="removeItem(${index})" title="Usuń produkt">
-                        <i class="fas fa-trash-can"></i>
-                    </button>
-                </div>
-            `;
+            container.innerHTML += `<div class="item"><span>${item.name}</span><b>${item.price} PLN</b></div>`;
         });
+        document.getElementById("total").innerText = sum.toFixed(2) + " PLN";
 
-        let final = sum * (1 - discount);
-        totalElement.innerText = final.toFixed(2) + " PLN";
-        
-        document.getElementById("paypal-button-container").innerHTML = "";
-        if(final > 0) renderPayPal(final);
-    }
-
-    function removeItem(index) {
-        cart.splice(index, 1);
-        localStorage.setItem('cart', JSON.stringify(cart));
-        displayCart();
-    }
-
-    function applyPromo() {
-        const code = document.getElementById("promoInput").value.toUpperCase();
-        if(CODES[code]) {
-            discount = CODES[code];
-            const msg = document.getElementById("promoMsg");
-            msg.innerText = "✓ Zastosowano zniżkę " + (discount * 100) + "%";
-            msg.style.display = "block";
-            displayCart();
-        } else { 
-            alert("Błędny kod rabatowy!"); 
+        if(sum > 0) {
+            paypal.Buttons({
+                createOrder: (data, actions) => actions.order.create({ purchase_units: [{ amount: { value: sum.toFixed(2) } }] }),
+                onApprove: (data, actions) => actions.order.capture().then(() => {
+                    fetch('zapisz_zamowienie.php', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            discord: "OPŁACONO",
+                            items: cart.map(i => i.name).join(", "),
+                            total: sum.toFixed(2) + " PLN",
+                            desc: "Klient sfinalizował płatność przez PayPal."
+                        })
+                    });
+                    alert("Zapłacono!");
+                    localStorage.removeItem('cart');
+                    window.location.href = "index.html";
+                })
+            }).render('#paypal-button-container');
         }
-    }
-
-    function clearCart() { 
-        if(confirm("Czy na pewno chcesz usunąć wszystkie produkty?")) {
-            localStorage.removeItem('cart'); 
-            cart = []; 
-            displayCart(); 
-        }
-    }
-
-    function renderPayPal(amount) {
-        paypal.Buttons({
-            style: { shape: 'rect', color: 'blue', height: 48, label: 'pay' },
-            createOrder: (data, actions) => actions.order.create({
-                purchase_units: [{ amount: { value: amount.toFixed(2), currency_code: 'PLN' } }]
-            }),
-            onApprove: (data, actions) => actions.order.capture().then(() => {
-                alert("Dziękujemy za zamówienie!");
-                localStorage.removeItem('cart');
-                window.location.reload();
-            })
-        }).render('#paypal-button-container');
-    }
-
-    displayCart();
-</script>
-
+    </script>
 </body>
 </html>
