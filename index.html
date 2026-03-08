@@ -3,306 +3,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EchoCode.pl – Twoja Prośba, Nasze Wykonanie</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
-
+    <title>EchoCode.pl | Premium Development</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <style>
-        /* --- RESET & BAZA --- */
-        *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif; scroll-behavior: smooth;}
-        body{background:#0b0b12;color:white;overflow-x:hidden;}
+        :root { --p-color: #8b5cf6; --p-glow: rgba(139, 92, 246, 0.5); --bg-dark: #050508; }
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; scroll-behavior: smooth; }
+        body { background: var(--bg-dark); color:white; overflow-x:hidden; }
 
-        /* --- ANIMOWANE TŁO --- */
-        body::before {
-            content:"";
-            position:fixed;
-            width:300%;
-            height:300%;
-            background: 
-                radial-gradient(circle at 20% 20%, #8b5cf615, transparent 25%),
-                radial-gradient(circle at 80% 80%, #06b6d415, transparent 25%),
-                radial-gradient(circle at 50% 50%, #6d28d910, transparent 40%);
-            animation: moveBg 20s infinite linear;
-            z-index:-2;
+        /* BACKGROUND & PROGRESS */
+        #particles-js { position: fixed; width: 100%; height: 100%; z-index: -1; }
+        #scroll-progress { position: fixed; top: 0; left: 0; height: 4px; background: var(--p-color); width: 0%; z-index: 10001; }
+
+        /* HEADER */
+        header {
+            padding:20px 10%; display:flex; justify-content:space-between; align-items:center;
+            background: rgba(5, 5, 8, 0.8); backdrop-filter: blur(15px);
+            position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid rgba(255,255,255,0.05);
         }
+        .logo { font-size: 26px; font-weight: 800; cursor:pointer; }
+        .logo span { color: var(--p-color); }
+        nav { display: flex; align-items: center; gap: 25px; }
+        nav a { text-decoration: none; color: rgba(255,255,255,0.7); font-weight: 600; transition: 0.3s; }
+        nav a:hover { color: var(--p-color); }
+        .cart-btn { background: rgba(139, 92, 246, 0.1); padding: 8px 15px; border-radius: 10px; border: 1px solid var(--p-glow); display: flex; align-items: center; gap: 8px; }
+        #cart-count { background: var(--p-color); padding: 2px 8px; border-radius: 20px; font-size: 12px; }
 
-        .blob {
-            position: fixed;
-            width: 500px;
-            height: 500px;
-            background: #8b5cf6;
-            filter: blur(120px);
-            border-radius: 50%;
-            z-index: -1;
-            opacity: 0.15;
-            pointer-events: none;
-            transition: transform 0.1s ease-out;
-        }
+        /* HERO */
+        .hero { padding: 100px 10% 60px; text-align: center; }
+        .hero h1 { font-size: clamp(30px, 5vw, 60px); font-weight: 800; background: linear-gradient(180deg, #fff, #888); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 20px;}
 
-        @keyframes moveBg {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        header{
-            padding:40px 10%;
-            display:flex;
-            justify-content:space-between;
-            align-items:center;
-            animation: fadeDown 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-            position: relative;
-            z-index: 10;
-        }
-
-        .logo{font-size:32px;font-weight:800; cursor: pointer; transition: 0.3s;}
-        .logo .echo{color:#8b5cf6;text-shadow:0 0 15px #8b5cf6aa;}
-        .logo .code{color:white;}
-
-        nav a{
-            margin-left:30px;
-            text-decoration:none;
-            color:white;
-            transition:0.3s;
-            position: relative;
-        }
-        nav a:hover{color:#8b5cf6;}
-
-        .hero{
-            padding:120px 10%;
-            text-align:center;
-            animation: fadeUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-        }
-        .hero h1{
-            font-size:62px; 
-            font-weight:800; 
-            margin-bottom:20px;
-            background: linear-gradient(to right, #fff, #8b5cf6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* --- SEKCJE I SIATKA --- */
-        .section{padding:80px 10%; position: relative;}
-        .section h2{
-            font-size:38px;
-            margin-bottom:50px;
-            color:#8b5cf6;
-            text-align:center;
-            text-transform: uppercase;
-        }
-
-        .grid{
-            display:grid;
-            grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-            gap:30px;
-        }
-
-        .card{
-            background: rgba(20, 20, 32, 0.6);
-            backdrop-filter: blur(10px);
-            padding:40px;
-            border-radius:20px;
-            border: 1px solid rgba(139, 92, 246, 0.1);
-            transition:0.5s;
-            opacity:0;
-            transform:translateY(60px);
+        /* SERVICE GRID */
+        .section { padding: 40px 10%; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 25px; }
+        
+        .card { 
+            background: rgba(255,255,255,0.03); 
+            padding: 30px; 
+            border-radius: 20px; 
+            border: 1px solid rgba(255,255,255,0.05); 
+            transition: 0.4s; 
+            text-align: center;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            text-align: center;
         }
+        .card:hover { transform: translateY(-10px); background: rgba(139, 92, 246, 0.05); border-color: var(--p-color); }
+        .card h3 { font-size: 20px; margin-bottom: 15px; color: var(--p-color); }
+        .card p { font-size: 14px; color: #aaa; margin-bottom: 20px; line-height: 1.6; }
 
-        .card.show{ opacity:1; transform:translateY(0); }
-        .card:hover{ transform:translateY(-15px); border-color: #8b5cf6; box-shadow:0 20px 40px rgba(139, 92, 246, 0.2);}
-        .card h3{color:#8b5cf6; margin-bottom:15px; font-size: 24px;}
-        .price{margin:15px 0;color:#a78bfa;font-size:26px; font-weight: 800;}
+        .btn-order { 
+            padding: 12px; 
+            background: var(--p-color); 
+            color: white; 
+            border: none; 
+            border-radius: 10px; 
+            font-weight: 700; 
+            cursor: pointer; 
+            transition: 0.3s;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+        .btn-order:hover { box-shadow: 0 5px 15px var(--p-glow); filter: brightness(1.1); }
 
-        /* --- PRZYCISKI --- */
-        .btn{
-            padding:15px 30px;
-            background:#8b5cf6;
-            color:white;
-            text-decoration:none;
-            border-radius:10px;
-            font-weight:600;
-            transition:0.4s;
-            border:none;
-            cursor:pointer;
-            display: inline-block;
-        }
-        .btn:hover{ background:#6d28d9; transform:scale(1.05); }
+        /* PORTFOLIO */
+        .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 30px; }
+        .portfolio-item { position: relative; border-radius: 15px; overflow: hidden; height: 200px; cursor: pointer; border: 1px solid rgba(255,255,255,0.1); }
+        .portfolio-item img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .portfolio-item:hover img { transform: scale(1.1); filter: brightness(0.4); }
+        .portfolio-overlay { position: absolute; top:0; left:0; width:100%; height:100%; display:flex; align-items:center; justify-content:center; opacity:0; transition:0.3s; font-weight:800; }
+        .portfolio-item:hover .portfolio-overlay { opacity:1; }
 
-        /* --- MODAL --- */
-        .modal{
-            display:none;
-            position:fixed;
-            top:0;left:0;
-            width:100%;height:100%;
-            background:rgba(0,0,0,0.85);
-            backdrop-filter: blur(8px);
-            justify-content:center;
-            align-items:center;
-            z-index:999;
-        }
-        .modal-content{
-            background:#141420;
-            padding:40px;
-            width:90%;
-            max-width:500px;
-            border-radius:20px;
-            border: 2px solid #8b5cf6;
-            position:relative;
-        }
-        .close{ position:absolute; top:15px; right:20px; cursor:pointer; font-size:28px; }
-        input, textarea, input[type=range] {
-            width:100%; margin:10px 0 20px 0; padding:15px;
-            background:#1b1b2a; border: 1px solid rgba(139, 92, 246, 0.2);
-            border-radius:10px; color:white; outline: none;
-        }
+        /* MODAL */
+        .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); justify-content:center; align-items:center; z-index: 10000; }
+        .modal-content { background: #0f0f15; width: 450px; padding: 40px; border-radius: 25px; border: 1px solid var(--p-glow); animation: pop 0.3s ease; }
+        @keyframes pop { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        
+        input, textarea { width: 100%; background: #1a1a24; border: 1px solid #333; padding: 12px; border-radius: 10px; color: white; margin: 10px 0; outline:none; }
+        .btn-main { width:100%; padding: 15px; background: var(--p-color); color: white; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.3s; }
 
-        /* --- TOASTS --- */
-        .toast-container{ position: fixed; bottom: 20px; right: 20px; display: flex; flex-direction: column; gap: 10px; z-index: 9999; }
-        .toast{
-            min-width: 280px; padding: 16px 24px; border-radius: 12px; color: white;
-            font-weight: 600; animation: slideIn 0.5s forwards;
-        }
-        .toast.success{ background: #10b981; }
-        .toast.error{ background: #ef4444; }
-
-        @keyframes slideIn{ from{ transform: translateX(120%); } to{ transform: translateX(0); } }
-        @keyframes slideOut{ to{ transform: translateX(120%); opacity: 0; } }
-        @keyframes fadeUp{ from{ opacity:0; transform:translateY(50px); } to{ opacity:1; transform:translateY(0); } }
-        @keyframes fadeDown{ from{ opacity:0; transform:translateY(-50px); } to{ opacity:1; transform:translateY(0); } }
+        /* LIGHTBOX & FLYING DOT */
+        #lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 20000; align-items: center; justify-content: center; }
+        #lightbox img { max-width: 85%; max-height: 80%; border-radius: 10px; }
+        .fly-dot { position: fixed; width: 15px; height: 15px; background: var(--p-color); border-radius: 50%; z-index: 11000; pointer-events: none; transition: all 0.7s cubic-bezier(0.6, -0.28, 0.735, 0.045); }
     </style>
 </head>
 <body>
-
-<div class="blob"></div>
-
-<header>
-    <div class="logo"><span class="echo">Echo</span><span class="code">Code</span></div>
-    <nav>
-        <a href="#produkty">Oferta</a>
-        <a href="https://discord.gg/sKH5Z5JfZH">Discord</a>
-        <a href="zamowienia.html">Koszyk</a>
-    </nav>
-</header>
-
-<section class="hero">
-    <h1>Twoja Prośba,<br>Nasze Wykonanie.</h1>
-    <p>Profesjonalne rozwiązania dla Twojego projektu w zasięgu ręki.</p>
-    <a href="#produkty" class="btn">Zobacz Ofertę</a>
-</section>
-
-<section class="section" id="produkty">
-    <h2>📦 Skonfiguruj Zamówienie</h2>
-    <div class="grid">
-        <!-- Discord Bot -->
-        <div class="card" style="border-color: #5865F2;">
-            <h3>Discord Bot</h3>
-            <p>Autorskie boty, systemy weryfikacji, ekonomia i integracje API.</p>
-            <div class="price">od 50 PLN</div>
-            <button class="btn" onclick="openModal('Discord Bot', 50)">Konfiguruj Bota</button>
-        </div>
-
-        <!-- Custom Order -->
-        <div class="card" style="border-color: #8b5cf6; transform: scale(1.05); background: rgba(139, 92, 246, 0.05);">
-            <h3>Custom Order</h3>
-            <p>Paczki serwerowe, pluginy Minecraft, skrypty i optymalizacja.</p>
-            <div class="price">od 20 PLN</div>
-            <button class="btn" onclick="openModal('Custom Order', 20)">Złóż Zlecenie</button>
-        </div>
-
-        <!-- Strona WWW -->
-        <div class="card" style="border-color: #06b6d4;">
-            <h3>Strona WWW</h3>
-            <p>Landing page, sklepy serwerowe i nowoczesne portfolio.</p>
-            <div class="price">od 150 PLN</div>
-            <button class="btn" onclick="openModal('Strona WWW', 150)">Zaprojektuj WWW</button>
-        </div>
-    </div>
-</section>
-
-<div id="pluginModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal()">×</span>
-        <h2 id="modalTitle" style="margin-bottom: 20px;">Nowe zlecenie</h2>
-        
-        <label>Twój Nick na Discord:</label>
-        <input type="text" id="discordNick" placeholder="np. gracz#1234">
-
-        <label>Opis projektu:</label>
-        <textarea id="pluginDesc" placeholder="Opisz dokładnie co mamy stworzyć..."></textarea>
-
-        <label>Twój Budżet (PLN):</label>
-        <input type="range" id="pluginLevel" oninput="updatePrice()">
-        <div class="price" style="text-align: center;"><span id="priceValue">20</span> PLN</div>
-
-        <button class="btn" style="width:100%" onclick="addToCart()">Dodaj do koszyka</button>
-    </div>
-</div>
-
-<div id="toastContainer" class="toast-container"></div>
-
-<script>
-let currentService = "";
-
-/* Scroll Reveal */
-function reveal() {
-    const cards = document.querySelectorAll('.card');
-    cards.forEach(card => {
-        if(card.getBoundingClientRect().top < window.innerHeight * 0.9) card.classList.add('show');
-    });
-}
-window.addEventListener('scroll', reveal);
-reveal();
-
-/* Mouse Move Background */
-const blob = document.querySelector('.blob');
-document.addEventListener('mousemove', (e) => {
-    blob.style.transform = `translate(${e.clientX - 250}px, ${e.clientY - 250}px)`;
-});
-
-/* Modal Logic */
-function openModal(service, minPrice) {
-    currentService = service;
-    document.getElementById("modalTitle").innerText = "Zlecenie: " + service;
-    document.getElementById("pluginModal").style.display = "flex";
+    <div id="scroll-progress"></div>
+    <div id="particles-js"></div>
     
-    const slider = document.getElementById("pluginLevel");
-    slider.min = minPrice;
-    slider.max = minPrice * 10;
-    slider.value = minPrice;
-    updatePrice();
-}
+    <header>
+        <div class="logo" onclick="location.reload()"><span>Echo</span>Code</div>
+        <nav>
+            <a href="#oferta">Oferta</a>
+            <a href="#portfolio">Portfolio</a>
+            <a href="https://discord.gg/sKH5Z5JfZH">Discord</a>
+            <a href="zamowienia.html" class="cart-btn">🛒 <span id="cart-count">0</span></a>
+        </nav>
+    </header>
 
-function closeModal() { document.getElementById("pluginModal").style.display = "none"; }
+    <section class="hero">
+        <h1>Wybierz swoją kategorię</h1>
+        <p style="color: #888; max-width: 600px; margin: 0 auto;">Zautomatyzuj swój serwer, stwórz unikalną paczkę lub wyróżnij się grafiką. Kliknij i zamów w 30 sekund.</p>
+    </section>
 
-function updatePrice() {
-    document.getElementById("priceValue").textContent = document.getElementById("pluginLevel").value;
-}
+    <section class="section" id="oferta">
+        <div class="grid">
+            <div class="card">
+                <h3>Custom Plugin</h3>
+                <p>Napisany od zera pod Twój silnik. Optymalizacja i stabilność na pierwszym miejscu.</p>
+                <button class="btn-order" onclick="openModal('Custom Plugin')">Zamów Plugin</button>
+            </div>
+            <div class="card">
+                <h3>Custom Paczka</h3>
+                <p>Pełna konfiguracja serwera. Od ekonomii po autorskie tryby gry.</p>
+                <button class="btn-order" onclick="openModal('Custom Paczka')">Zamów Paczkę</button>
+            </div>
+            <div class="card">
+                <h3>Custom Grafika</h3>
+                <p>Logotypy, banery, ikony serwerowe i tekstury w najwyższej jakości.</p>
+                <button class="btn-order" onclick="openModal('Custom Grafika')">Zamów Grafikę</button>
+            </div>
+            <div class="card">
+                <h3>Custom Bot DC</h3>
+                <p>Integracja serwera z Discordem. Automatyczna weryfikacja i logi.</p>
+                <button class="btn-order" onclick="openModal('Custom Bot DC')">Zamów Bota</button>
+            </div>
+        </div>
+    </section>
 
-function addToCart() {
-    const nick = document.getElementById("discordNick").value;
-    const desc = document.getElementById("pluginDesc").value;
-    const price = document.getElementById("pluginLevel").value;
+    <section class="section" id="portfolio">
+        <h2 style="margin-bottom: 20px; text-align: center;">🎨 Nasze Realizacje</h2>
+        <div class="portfolio-grid">
+            <div class="portfolio-item" onclick="openLightbox('https://i.imgur.com/8B6pE0V.png')"><img src="https://i.imgur.com/8B6pE0V.png"><div class="portfolio-overlay">POWIĘKSZ</div></div>
+            <div class="portfolio-item" onclick="openLightbox('https://i.imgur.com/Xw3Ld7k.png')"><img src="https://i.imgur.com/Xw3Ld7k.png"><div class="portfolio-overlay">POWIĘKSZ</div></div>
+            <div class="portfolio-item" onclick="openLightbox('https://i.imgur.com/rNf6R8p.png')"><img src="https://i.imgur.com/rNf6R8p.png"><div class="portfolio-overlay">POWIĘKSZ</div></div>
+        </div>
+    </section>
 
-    if(!nick || !desc) {
-        showToast("Wypełnij wszystkie pola!", "error");
-        return;
-    }
+    <div id="pluginModal" class="modal">
+        <div class="modal-content">
+            <h2 id="modalTitle">Konfiguracja</h2>
+            <input type="text" id="discordNick" placeholder="Twój Discord (nick#0000)">
+            <textarea id="pluginDesc" rows="4" placeholder="Szczegóły zlecenia..."></textarea>
+            <p style="margin-top: 10px;">Twój budżet: <b id="priceVal">50</b> PLN</p>
+            <input type="range" min="20" max="1500" step="10" id="priceRange" value="50" oninput="document.getElementById('priceVal').innerText=this.value">
+            <button class="btn-main" style="margin-top: 20px;" onclick="addToCart(event)">DODAJ DO KOSZYKA</button>
+            <p onclick="closeModal()" style="text-align:center; margin-top:15px; font-size:12px; opacity:0.5; cursor:pointer;">ANULUJ</p>
+        </div>
+    </div>
 
-    const order = { service: currentService, nick, desc, price };
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    cart.push(order);
-    localStorage.setItem("cart", JSON.stringify(cart));
+    <div id="lightbox" onclick="this.style.display='none'"><img id="lightbox-img" src=""></div>
 
-    // Webhook
-    fetch("https://discord.com/api/webhooks/1478003454646419631/EvjNeqaEBPfmdvH--rqB0YKf4845lbxtJdrtsOdc0fpxEZ_kXUQV-dEPcDeI_7yec3Sp", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            embeds: [{
-                title: "🛒 Nowe zamówienie",
-                color: 9140214,
-                fields: [
-                    { name: "Usługa", value: "
+    <script>
+        // Animacja cząsteczek
+        particlesJS("particles-js", {"particles":{"number":{"value":60},"color":{"value":"#8b5cf6"},"shape":{"type":"circle"},"opacity":{"value":0.4},"size":{"value":2},"line_linked":{"enable":true,"distance":150,"color":"#8b5cf6","opacity":0.2,"width":1},"move":{"enable":true,"speed":1.5}}});
+        
+        // Pasek przewijania
+        window.addEventListener('scroll', () => {
+            const winScroll = document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            document.getElementById("scroll-progress").style.width = (winScroll / height) * 100 + "%";
+        });
+
+        function updateBadge() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            document.getElementById('cart-count').innerText = cart.length;
+        }
+
+        let currentCategory = "";
+
+        function openModal(category) { 
+            currentCategory = category;
+            document.getElementById('modalTitle').innerText = "Zamawiasz: " + category;
+            document.getElementById('pluginModal').style.display = 'flex'; 
+        }
+
+        function closeModal() { document.getElementById('pluginModal').style.display = 'none'; }
+        function openLightbox(src) { document.getElementById('lightbox-img').src = src; document.getElementById('lightbox').style.display = 'flex'; }
+
+        function addToCart(e) {
+            const nick = document.getElementById('discordNick').value;
+            const desc = document.getElementById('pluginDesc').value;
+            const price = document.getElementById('priceRange').value;
+            if(!nick || !desc) { alert("Uzupełnij nick i opis!"); return; }
+
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart.push({name: currentCategory, price: parseInt(price), nick, desc});
+            localStorage.setItem('cart', JSON.stringify(cart));
+
+            // Animacja lotu do koszyka
+            const dot = document.createElement('div');
+            dot.className = 'fly-dot';
+            dot.style.left = e.clientX + 'px'; dot.style.top = e.clientY + 'px';
+            document.body.appendChild(dot);
+            const cartPos = document.querySelector('.cart-btn').getBoundingClientRect();
+            
+            setTimeout(() => { 
+                dot.style.left = cartPos.left + 'px'; 
+                dot.style.top = cartPos.top + 'px'; 
+                dot.style.transform = 'scale(0)'; 
+                dot.style.opacity = '0'; 
+            }, 50);
+
+            setTimeout(() => { 
+                dot.remove(); 
+                updateBadge(); 
+                closeModal(); 
+            }, 700);
+        }
+        window.onload = updateBadge;
+    </script>
+</body>
+</html>
